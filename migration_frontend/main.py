@@ -1,8 +1,11 @@
 from __future__ import annotations
 
+import sys
+
 from databases import DatabaseURL
 from quart import g
 from quart import Quart
+from quart import redirect
 from quart import render_template
 from quart import request
 
@@ -53,23 +56,52 @@ def configure_routes(app: Quart) -> None:
             title="Migrate Password",
         )
 
+    @app.route("/error")
+    async def error():
+        return await render_page(
+            "errors/exception.html",
+            "Server Error",
+        )
+
+    @app.route("/not-found")
+    async def not_found():
+        return await render_page("errors/not_found.html", "Page Not Found")
+
 
 def configure_mysql(app: Quart) -> None:
-    mysql = MySQLService(
-        DatabaseURL(
-            f"mysql+asyncmy://{config.MYSQL_USER}:{config.MYSQL_PASSWORD}@{config.MYSQL_HOST}:{config.MYSQL_PORT}/{config.MYSQL_DATABASE}",
-        ),
-    )
+    @app.before_serving
+    async def on_start():
+        mysql = MySQLService(
+            DatabaseURL(
+                f"mysql+asyncmy://{config.MYSQL_USER}:{config.MYSQL_PASSWORD}@{config.MYSQL_HOST}:{config.MYSQL_PORT}/{config.MYSQL_DATABASE}",
+            ),
+        )
+        await mysql.connect()
+        g.pool = mysql
 
     @app.before_request
     async def transaction_start():
-        g.sql = await mysql.transaction().__aenter__()
+        g.sql = await g.pool.transaction().__aenter__()
 
     @app.after_request
     async def transaction_end(r):
-        await g.sql.__aexit__()
+        await g.sql.__aexit__(None, None, None)
 
         return r
+
+    @app.errorhandler(500)
+    async def exception_handler(_):
+        exc = sys.exc_info()
+
+        await g.sql.__aexit__(*exc)
+
+        return redirect("/error")
+
+
+def configure_errors(app: Quart) -> None:
+    @app.errorhandler(404)
+    async def not_found(_):
+        return redirect("/not-found")
 
 
 def init_app() -> Quart:
