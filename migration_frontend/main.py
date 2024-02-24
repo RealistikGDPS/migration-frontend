@@ -57,7 +57,7 @@ def configure_routes(app: Quart) -> None:
 def configure_mysql(app: Quart) -> None:
     mysql = MySQLService(
         DatabaseURL(
-            f"mysql://{config.MYSQL_USER}:{config.MYSQL_PASSWORD}@{config.MYSQL_HOST}:{config.MYSQL_PORT}/{config.MYSQL_DATABASE}",
+            f"mysql+asyncmy://{config.MYSQL_USER}:{config.MYSQL_PASSWORD}@{config.MYSQL_HOST}:{config.MYSQL_PORT}/{config.MYSQL_DATABASE}",
         ),
     )
 
