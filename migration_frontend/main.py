@@ -12,6 +12,13 @@ def configure_routes(app: Quart) -> None:
             title="Home",
         )
 
+    @app.route("/password/migrate")
+    async def migrate_password():
+        return await render_template(
+            "tools/password_migrate.html",
+            title="Migrate Password",
+        )
+
 
 def init_app() -> Quart:
     app = Quart(
