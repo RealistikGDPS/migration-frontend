@@ -46,7 +46,7 @@ def configure_routes(app: Quart) -> None:
             user_count=user_count,
         )
 
-    @app.route("/password/migrate")
+    @app.route("/password/migrate", methods=["GET", "POST"])
     async def migrate_password():
         return await render_page(
             "tools/password_migrate.html",
@@ -79,6 +79,7 @@ def init_app() -> Quart:
         template_folder="../templates",
     )
 
+    configure_mysql(app)
     configure_routes(app)
 
     return app
