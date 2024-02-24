@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import sys
+import urllib.parse
 
 from databases import DatabaseURL
 from quart import g
@@ -10,6 +11,7 @@ from quart import render_template
 from quart import request
 
 from migration_frontend import config
+from migration_frontend import usecases
 from migration_frontend.adapters.mysql import MySQLService
 from migration_frontend.repository import Repository
 
@@ -17,12 +19,15 @@ from migration_frontend.repository import Repository
 async def render_page(
     path: str,
     title: str,
+    error: str | None = None,
+    success: str | None = None,
+    warning: str | None = None,
     **kwargs,
 ) -> str:
     # This might be a bit unsafe for social engineering but oh wellll.
-    success = request.args.get("success")
-    error = request.args.get("error")
-    warning = request.args.get("warning")
+    success = success or request.args.get("success")
+    error = error or request.args.get("error")
+    warning = warning or request.args.get("warning")
 
     return await render_template(
         path,
@@ -51,9 +56,34 @@ def configure_routes(app: Quart) -> None:
 
     @app.route("/password/migrate", methods=["GET", "POST"])
     async def migrate_password():
+        error = None
+
+        if request.method == "POST":
+            form = await request.form
+            username = form["username"]
+            old_password = form["old-password"]
+            new_password = form["password"]
+
+            res = await usecases.migrate_password(
+                repo(),
+                username,
+                old_password,
+                new_password,
+            )
+
+            if res is None:
+                message = urllib.parse.quote(
+                    "Your password has been successfully migrated! Try logging in.",
+                )
+
+                return redirect(f"/?success={message}")
+
+            error = res.text
+
         return await render_page(
             "tools/password_migrate.html",
             title="Migrate Password",
+            error=error,
         )
 
     @app.route("/error")

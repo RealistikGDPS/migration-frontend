@@ -21,6 +21,20 @@ class Repository:
     async def get_member_count(self) -> int:
         return await self.sql.fetch_val("SELECT COUNT(*) FROM users")
 
+    async def user_exists(self, user_id: int) -> bool:
+        return (
+            await self.sql.fetch_val(
+                "SELECT 1 FROM users WHERE id = :id",
+                {"id": user_id},
+            )
+        ) is not None
+
+    async def user_id_from_name(self, username: str) -> int | None:
+        return await self.sql.fetch_val(
+            "SELECT id FROM users WHERE username = :username",
+            {"username": username},
+        )
+
     async def get_credentials_with_version(
         self,
         user_id: int,
