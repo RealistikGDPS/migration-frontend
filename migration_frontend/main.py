@@ -35,6 +35,7 @@ async def render_page(
         success=success,
         error=error,
         warning=warning,
+        config=config,
         **kwargs,
     )
 
@@ -97,27 +98,35 @@ def configure_routes(app: Quart) -> None:
     async def not_found():
         return await render_page("errors/not_found.html", "Page Not Found")
 
+    @app.route("/download")
+    async def download():
+        return await render_page(
+            "downloads.html",
+            "Download RealistikGDPS",
+        )
+
 
 def configure_mysql(app: Quart) -> None:
-    mysql = MySQLService(
-        DatabaseURL(
-            f"mysql+asyncmy://{config.MYSQL_USER}:{config.MYSQL_PASSWORD}@{config.MYSQL_HOST}:{config.MYSQL_PORT}/{config.MYSQL_DATABASE}",
-        ),
-    )
+    if config.MYSQL_ENABLED:
+        mysql = MySQLService(
+            DatabaseURL(
+                f"mysql+asyncmy://{config.MYSQL_USER}:{config.MYSQL_PASSWORD}@{config.MYSQL_HOST}:{config.MYSQL_PORT}/{config.MYSQL_DATABASE}",
+            ),
+        )
 
-    @app.before_serving
-    async def on_start():
-        await mysql.connect()
+        @app.before_serving
+        async def on_start():
+            await mysql.connect()
 
-    @app.before_request
-    async def transaction_start():
-        g.sql = await mysql.transaction().__aenter__()
+        @app.before_request
+        async def transaction_start():
+            g.sql = await mysql.transaction().__aenter__()
 
-    @app.after_request
-    async def transaction_end(r):
-        await g.sql.__aexit__(None, None, None)
+        @app.after_request
+        async def transaction_end(r):
+            await g.sql.__aexit__(None, None, None)
 
-        return r
+            return r
 
     @app.errorhandler(500)
     async def exception_handler(_):

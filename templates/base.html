@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RealistikGDPS :: {{ title }}</title>
+    <link rel="icon" type="image/x-icon" href="/static/images/favicon.ico" />
 
     {% block head %}{% endblock %}
 
@@ -14,7 +15,12 @@
 </head>
 <body>
     <div class="navbar bg-base-300">
-        <a class="btn btn-ghost text-xl" href="/">RealistikGDPS</a>
+        <div class="navbar-start">
+            <a class="btn btn-ghost text-xl" href="/">RealistikGDPS</a>
+        </div>
+        <div class="navbar-end">
+            <a class="btn btn-outline" href="/download">Download</a>
+        </div>
     </div>
     {% block body %}{% endblock %}
     <div class="bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-950">

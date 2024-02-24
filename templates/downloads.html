@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block container %}
+
+<div class="flex flex-col items-center justify-center min-h-screen">
+    <header class="container py-12 text-center">
+      <div class="space-y-3">
+        <h1 class="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl text-gray-900 dark:text-gray-50">
+          Downloads
+        </h1>
+        <p class="mx-auto max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
+          Download the RealistikGDPS client to start playing. The RealistikGDPS client allows you to access custom
+          servers and play custom levels.
+        </p>
+      </div>
+    </header>
+    <section class="container py-12">
+      <div class="grid items-start gap-6 lg:grid-cols-2 lg:items-center lg:gap-12">
+        <div class="flex flex-col justify-center space-y-4 bg-white dark:bg-gray-950 p-6 rounded-lg shadow-lg">
+          <div class="space-y-2">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-50">Windows Client</h2>
+            <p class="max-w-prose text-gray-500 md:text-base/relaxed lg:text-xl/relaxed xl:text-base/relaxed dark:text-gray-400">
+              The RealistikGDPS Windows client allows you to access custom servers from your Windows device.
+              Supports Windows XP+.
+            </p>
+          </div>
+          <a href="{{ config.DOWNLOAD_PC }}" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-11 rounded-md px-8">
+            Download Windows Client
+          </a>
+        </div>
+        <div class="flex flex-col justify-center space-y-4 bg-white dark:bg-gray-950 p-6 rounded-lg shadow-lg">
+          <div class="space-y-2">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-50">Android Client</h2>
+            <p class="max-w-prose text-gray-500 md:text-base/relaxed lg:text-xl/relaxed xl:text-base/relaxed dark:text-gray-400">
+              The RealistikGDPS Android client allows you to access the server wherever you are.
+            </p>
+          </div>
+          <a href="{{ config.DOWNLOAD_ANDROID }}" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-11 rounded-md px-8">
+            Download Android Client
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+{% endblock %}
