@@ -8,8 +8,9 @@ WORKDIR /app
 COPY requirements/main.txt requirements.txt
 RUN pip install -r requirements.txt
 
+COPY scripts .
 COPY migration_frontend .
 COPY templates .
 COPY static .
 
-CMD ["uvicorn", "migration_frontend.main:asgi_app"]
+ENTRYPOINT [ "/app/scripts/run_frontend.sh" ]
