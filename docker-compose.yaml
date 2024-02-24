@@ -2,17 +2,7 @@ version: "3"
 services:
   migration_frontend:
     image: migration_frontend:latest
-    networks:
-      - host
     restart: always
-
+    network_mode: "host"
     env_file:
       - ".env"
-
-    ports:
-      - "${HTTP_PORT}:${HTTP_PORT}"
-
-networks:
-  host:
-    name: host
-    external: true

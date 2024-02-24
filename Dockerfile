@@ -8,9 +8,9 @@ WORKDIR /app
 COPY requirements/main.txt requirements.txt
 RUN pip install -r requirements.txt
 
-COPY scripts .
-COPY migration_frontend .
-COPY templates .
-COPY static .
+COPY scripts /app/scripts
+COPY migration_frontend /app/migration_frontend
+COPY templates /app/templates
+COPY static /app/static
 
 ENTRYPOINT [ "/app/scripts/run_frontend.sh" ]
