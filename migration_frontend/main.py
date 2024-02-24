@@ -3,6 +3,8 @@ from __future__ import annotations
 from quart import Quart
 from quart import render_template
 
+from migration_frontend import config
+
 
 def configure_routes(app: Quart) -> None:
     @app.route("/")
