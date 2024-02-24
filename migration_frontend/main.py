@@ -69,19 +69,19 @@ def configure_routes(app: Quart) -> None:
 
 
 def configure_mysql(app: Quart) -> None:
+    mysql = MySQLService(
+        DatabaseURL(
+            f"mysql+asyncmy://{config.MYSQL_USER}:{config.MYSQL_PASSWORD}@{config.MYSQL_HOST}:{config.MYSQL_PORT}/{config.MYSQL_DATABASE}",
+        ),
+    )
+
     @app.before_serving
     async def on_start():
-        mysql = MySQLService(
-            DatabaseURL(
-                f"mysql+asyncmy://{config.MYSQL_USER}:{config.MYSQL_PASSWORD}@{config.MYSQL_HOST}:{config.MYSQL_PORT}/{config.MYSQL_DATABASE}",
-            ),
-        )
         await mysql.connect()
-        g.pool = mysql
 
     @app.before_request
     async def transaction_start():
-        g.sql = await g.pool.transaction().__aenter__()
+        g.sql = await mysql.transaction().__aenter__()
 
     @app.after_request
     async def transaction_end(r):
@@ -93,7 +93,9 @@ def configure_mysql(app: Quart) -> None:
     async def exception_handler(_):
         exc = sys.exc_info()
 
-        await g.sql.__aexit__(*exc)
+        # If the error occurred while making the sql conn
+        if g.get("sql") is not None:
+            await g.sql.__aexit__(*exc)
 
         return redirect("/error")
 
