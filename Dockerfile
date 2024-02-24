@@ -12,4 +12,4 @@ COPY migration_frontend .
 COPY templates .
 COPY static .
 
-CMD ["uvicorn", "migration_frontend:main:asgi_app"]
+CMD ["uvicorn", "migration_frontend.main:asgi_app"]

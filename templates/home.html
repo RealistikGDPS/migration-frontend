@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block container %}
+<div class="container grid items-center gap-4 min-h-screen px-4 py-12 text-center md:py-24 md:gap-10 lg:px-6">
+    <div class="space-y-3">
+        <h1 class="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
+            RealistikGDPS
+        </h1>
+        <p class="text-gray-500 mx-auto max-w-[600px]">The ultimate custom server for Geometry Dash.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg">
+            <img
+                src="/static/images/custom_ratings.png"
+                alt="Level with custom rating"
+                class="object-cover w-full h-48"
+                style="aspect-ratio:400/300;object-fit:cover"
+            />
+            <div class="p-4">
+                <h3 class="text-lg font-semibold">Custom Rating System</h3>
+                <p class="text-sm text-gray-500">
+                    Unlike the official servers, we decide our own level ratings. Enjoy a more down to earth rating criteria and
+                    get rewarded for your effort!
+                </p>
+            </div>
+        </div>
+        <div class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg">
+            <img
+                src="/static/images/custom_songs.png"
+                alt="Level with custom song"
+                class="object-cover w-full h-48"
+                style="aspect-ratio:400/300;object-fit:cover"
+            />
+            <div class="p-4">
+                <h3 class="text-lg font-semibold">Custom Songs</h3>
+                <p class="text-sm text-gray-500">
+                    Annoyed by the limitations of the Newgrounds song system? In RealistikGDPS, you can upload and play any song
+                    of your choosing! Just use our song upload tool and receive a usable song ID within seconds!
+                </p>
+            </div>
+        </div>
+        <div class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg">
+            <img
+                src="/static/images/mod_system.png"
+                alt="Moderator Badges"
+                class="object-cover w-full h-48"
+                style="aspect-ratio:400/300;object-fit:cover"
+            />
+            <div class="p-4">
+                <h3 class="text-lg font-semibold">Become a Moderator</h3>
+                <p class="text-sm text-gray-500">
+                    Have your own say in how the server is ran! With a smaller community,
+                    its easier than ever to climb through through the ranks and have an impact!
+                </p>
+            </div>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg">
+            <div class="p-4">
+                <h3 class="text-lg font-semibold">Password Migration</h3>
+                <p class="text-sm text-gray-500">Migrate your password to enhance security.</p>
+            </div>
+        </div>
+        <div class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg">
+            <div class="p-4">
+                <h3 class="text-lg font-semibold">Download</h3>
+                <p class="text-sm text-gray-500">See a list of all available RealistikGDPS clients.</p>
+            </div>
+        </div>
+        <div class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg">
+            <div class="p-4">
+                <h3 class="text-lg font-semibold">Contact Us</h3>
+                <p class="text-sm text-gray-500">Join our Discord server to keep up-to-date with our progress!</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
