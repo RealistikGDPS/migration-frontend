@@ -11,14 +11,14 @@ lint:
 	pre-commit run --all-files
 
 run:
-	docker-compose up migration_frontend
+	docker compose up migration_frontend
 
 run-bg:
-	docker-compose up -d migration_frontend
+	docker compose up -d migration_frontend
 
 
 stop:
-	docker-compose down
+	docker compose down
 
 logs:
-	docker-compose logs -f
+	docker compose logs -f
